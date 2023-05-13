@@ -66,17 +66,16 @@ class Company
         return $this->employees;
     }
 
-    public function calculateAnnualSalary(): array
+    /**
+     * @return array<int, \App\Domain\ValueObject\Salary>
+     */
+    public function getEmployeeSalaries(): array
     {
-        $totals = [];
+        $salaries = [];
         foreach ($this->employees as $employee) {
-            if (!isset($totals[$employee->getSalary()->getCurrency()])) {
-                $totals[$employee->getSalary()->getCurrency()] = 0;
-            }
-
-            $totals[$employee->getSalary()->getCurrency()] += $employee->calculateAnnualSalary()->getValue();
+            $salaries[] = $employee->getSalary();
         }
 
-        return $totals;
+        return $salaries;
     }
 }

@@ -2,24 +2,25 @@
 
 namespace App\Infrastructure\Http;
 
-use App\Application\UseCase\CalculateAnnualSalaryForCompany;
+use App\Application\DataTransferObject\AnnualSalary;
 use App\Application\UseCase\CreateFakeCompaniesUseCase;
-use App\Application\UseCase\CreateFakeCompanyUseCase;
+use App\Application\UseCase\GetAnnualSalaryForCompanyUseCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CompanyController
 {
     private CreateFakeCompaniesUseCase $createFakeCompaniesUseCase;
-    private CalculateAnnualSalaryForCompany $calculateAnnualSalaryForCompany;
+    private GetAnnualSalaryForCompanyUseCase $getAnnualSalaryForCompanyUseCase;
 
     public function __construct(
         CreateFakeCompaniesUseCase $createFakeCompaniesUseCase,
-        CalculateAnnualSalaryForCompany $calculateAnnualSalaryForCompany
+        GetAnnualSalaryForCompanyUseCase $getAnnualSalaryForCompanyUseCase
     ) {
         $this->createFakeCompaniesUseCase = $createFakeCompaniesUseCase;
-        $this->calculateAnnualSalaryForCompany = $calculateAnnualSalaryForCompany;
+        $this->getAnnualSalaryForCompanyUseCase = $getAnnualSalaryForCompanyUseCase;
     }
 
     #[Route('/api/companies', methods: ['GET'])]
@@ -28,7 +29,7 @@ class CompanyController
         $jsonData = [];
         $companies = $this->createFakeCompaniesUseCase->execute();
 
-        // TODO: serializer
+        // TODO: use serializer
         foreach ($companies as $company) {
             $companyJsonData = [
                 'id' => $company->getId()->getValue(),
@@ -52,11 +53,21 @@ class CompanyController
         return new JsonResponse($jsonData, Response::HTTP_CREATED);
     }
 
-    #[Route('/api/companies/annual-salary', methods: ['GET'])]
-    public function calculateAnnualSalary(): JsonResponse
+    #[Route('/api/companies/{id}/annual-salary', methods: ['GET'])]
+    public function getAnnualSalary(int $id, Request $request): JsonResponse
     {
-        $totals = $this->calculateAnnualSalaryForCompany->execute();
+        $annualSalary = AnnualSalary::fromArray([
+            'idCompany' => $id,
+            'currency' => $request->query->get('currency', 'USD'),
+        ]);
 
-        return new JsonResponse($totals, Response::HTTP_OK);
+        $annualSalary = $this->getAnnualSalaryForCompanyUseCase->execute($annualSalary);
+
+        // TODO: use serializer
+        return new JsonResponse([
+            'idCompany' => $annualSalary->getIdCompany(),
+            'currency' => $annualSalary->getCurrency(),
+            'salary' => $annualSalary->getSalary(),
+        ], Response::HTTP_OK);
     }
 }

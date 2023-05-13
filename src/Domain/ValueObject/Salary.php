@@ -4,8 +4,9 @@ namespace App\Domain\ValueObject;
 
 class Salary
 {
-    const VALID_CURRENCY_LIST = [
+    public const VALID_CURRENCY_LIST = [
         'USD',
+        'EUR',
     ];
 
     private int $value;

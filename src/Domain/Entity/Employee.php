@@ -84,9 +84,4 @@ class Employee
     {
         return $this->salary;
     }
-
-    public function calculateAnnualSalary(): Salary
-    {
-        return new Salary($this->getSalary()->getValue() * 12, $this->getSalary()->getCurrency());
-    }
 }

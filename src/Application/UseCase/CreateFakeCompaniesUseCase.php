@@ -34,14 +34,14 @@ class CreateFakeCompaniesUseCase
         ];
     }
 
-    protected function createGoogleCompany(): Company
+    private function createGoogleCompany(): Company
     {
         $alexClareEmployee = new Employee(
             $this->employeeRepository->getNextId(),
             new Email('alex.clare@gmail.com'),
             new Gender('male'),
             new EmployeeName('Alex', 'Clare'),
-            new Salary(2000, 'USD'),
+            new Salary(2000, 'EUR'),
         );
         $this->employeeRepository->add($alexClareEmployee);
 
@@ -78,7 +78,7 @@ class CreateFakeCompaniesUseCase
         return $googleCompany;
     }
 
-    protected function createTwitterCompany(): Company
+    private function createTwitterCompany(): Company
     {
         $alexClareEmployee = new Employee(
             $this->employeeRepository->getNextId(),
@@ -94,7 +94,7 @@ class CreateFakeCompaniesUseCase
             new Email('john.doe@gmail.com'),
             new Gender('male'),
             new EmployeeName('John', 'Doe'),
-            new Salary(1000, 'USD'),
+            new Salary(1000, 'EUR'),
         );
         $this->employeeRepository->add($johnDoeEmployee);
 
