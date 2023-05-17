@@ -17,7 +17,7 @@ class Id
         return $this->value;
     }
 
-    private function assertValidId(int $value)
+    private function assertValidId(int $value): void
     {
         if ($value <= 0) {
             throw new \InvalidArgumentException('Wrong id');

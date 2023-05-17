@@ -9,7 +9,7 @@ use App\Domain\ValueObject\Id;
 use App\Domain\ValueObject\Salary;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class GetAnnualSalaryForCompanyUseCase
+class GetAnnualSalaryForCompanyUseCase implements ExecutableUseCase
 {
     private const NUMBER_OF_MONTH_IN_YEAR = 12;
 

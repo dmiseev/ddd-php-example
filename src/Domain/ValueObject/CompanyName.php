@@ -17,7 +17,7 @@ class CompanyName
         return $this->value;
     }
 
-    private function assertValidCompanyName(string $value)
+    private function assertValidCompanyName(string $value): void
     {
         if (!preg_match("/^[a-zA-Z-']+$/", $value)) {
             throw new \InvalidArgumentException('Invalid company name');

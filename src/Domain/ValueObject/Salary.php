@@ -19,17 +19,11 @@ class Salary
         $this->currency = $currency;
     }
 
-    /**
-     * @return int
-     */
     public function getValue(): int
     {
         return $this->value;
     }
 
-    /**
-     * @return string
-     */
     public function getCurrency(): string
     {
         return $this->currency;
@@ -40,7 +34,7 @@ class Salary
         return sprintf('%s %s', $this->value, $this->currency);
     }
 
-    private function assertValidSalary(int $value, string $currency)
+    private function assertValidSalary(int $value, string $currency): void
     {
         if ($value <= 0 && !in_array($currency, self::VALID_CURRENCY_LIST, true)) {
             throw new \InvalidArgumentException('Invalid salary');

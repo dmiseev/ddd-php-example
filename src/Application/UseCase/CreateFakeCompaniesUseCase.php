@@ -4,23 +4,31 @@ namespace App\Application\UseCase;
 
 use App\Domain\Entity\Company;
 use App\Domain\Entity\Employee;
+use App\Domain\Entity\Founder;
 use App\Domain\Repository\CompanyRepository;
 use App\Domain\Repository\EmployeeRepository;
+use App\Domain\Repository\FounderRepository;
 use App\Domain\ValueObject\CompanyName;
 use App\Domain\ValueObject\Email;
 use App\Domain\ValueObject\EmployeeName;
 use App\Domain\ValueObject\Gender;
+use App\Domain\ValueObject\Id;
 use App\Domain\ValueObject\Salary;
 
-class CreateFakeCompaniesUseCase
+class CreateFakeCompaniesUseCase implements ExecutableUseCase
 {
     private CompanyRepository $companyRepository;
     private EmployeeRepository $employeeRepository;
+    private FounderRepository $founderRepository;
 
-    public function __construct(CompanyRepository $companyRepository, EmployeeRepository $employeeRepository)
-    {
+    public function __construct(
+        CompanyRepository $companyRepository,
+        EmployeeRepository $employeeRepository,
+        FounderRepository $founderRepository,
+    ) {
         $this->companyRepository = $companyRepository;
         $this->employeeRepository = $employeeRepository;
+        $this->founderRepository = $founderRepository;
     }
 
     /**
@@ -63,9 +71,18 @@ class CreateFakeCompaniesUseCase
         );
         $this->employeeRepository->add($robertMartinEmployee);
 
+        $founder = new Founder(
+            $this->founderRepository->getNextId(),
+            new Email('kris.roden@gmail.com'),
+            new Gender('male'),
+        );
+
+        $this->founderRepository->add($founder);
+
         $googleCompany = new Company(
             $this->companyRepository->getNextId(),
             new CompanyName('Google'),
+            $founder,
         );
 
         $googleCompany
@@ -107,9 +124,18 @@ class CreateFakeCompaniesUseCase
         );
         $this->employeeRepository->add($robertMartinEmployee);
 
+        $founder = new Founder(
+            $this->founderRepository->getNextId(),
+            new Email('mark.roden@gmail.com'),
+            new Gender('male'),
+        );
+
+        $this->founderRepository->add($founder);
+
         $googleCompany = new Company(
             $this->companyRepository->getNextId(),
             new CompanyName('Twitter'),
+            $founder,
         );
 
         $googleCompany

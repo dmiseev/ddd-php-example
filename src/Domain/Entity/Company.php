@@ -9,6 +9,8 @@ class Company
 {
     private Id $id;
     private CompanyName $companyName;
+    private Founder $founder;
+
     /**
      * @var array<\App\Domain\Entity\Employee>
      */
@@ -17,22 +19,23 @@ class Company
     public function __construct(
         Id $id,
         CompanyName $companyName,
+        Founder $founder
     ) {
         $this->id = $id;
         $this->companyName = $companyName;
+        $this->founder = $founder;
     }
 
-    /**
-     * @return \App\Domain\ValueObject\Id
-     */
+    public function getFounder(): Founder
+    {
+        return $this->founder;
+    }
+
     public function getId(): Id
     {
         return $this->id;
     }
 
-    /**
-     * @return \App\Domain\ValueObject\CompanyName
-     */
     public function getCompanyName(): CompanyName
     {
         return $this->companyName;

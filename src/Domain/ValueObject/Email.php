@@ -8,7 +8,7 @@ class Email
 
     public function __construct(string $value)
     {
-        $this->asserValidtEmail($value);
+        $this->asserValidEmail($value);
         $this->value = $value;
     }
 
@@ -17,7 +17,7 @@ class Email
         return $this->value;
     }
 
-    private function asserValidtEmail(string $value)
+    private function asserValidEmail(string $value): void
     {
         if (!preg_match('/^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$/', $value)) {
             throw new \InvalidArgumentException('Invalid email');

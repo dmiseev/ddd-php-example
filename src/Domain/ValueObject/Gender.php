@@ -4,10 +4,11 @@ namespace App\Domain\ValueObject;
 
 class Gender
 {
-    const VALID_GENDER_LIST = [
+    private const VALID_GENDER_LIST = [
         'male',
         'female',
     ];
+
     private string $value;
 
     public function __construct(string $value)
@@ -21,7 +22,7 @@ class Gender
         return $this->value;
     }
 
-    private function assertValidGender(string $value)
+    private function assertValidGender(string $value): void
     {
         if (!in_array($value, self::VALID_GENDER_LIST, true)) {
             throw new \InvalidArgumentException('Invalid gender');

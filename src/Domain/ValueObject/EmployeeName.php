@@ -29,7 +29,7 @@ class EmployeeName
         return sprintf('%s %s', $this->firstName, $this->lastName);
     }
 
-    private function assertValidEmployeeName(string $firstName, string $lastName)
+    private function assertValidEmployeeName(string $firstName, string $lastName): void
     {
         if (!preg_match("/^[a-zA-Z-']+$/", $firstName) || !preg_match("/^[a-zA-Z-']+$/", $lastName)) {
             throw new \InvalidArgumentException('Invalid employee name');
